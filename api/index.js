@@ -21,6 +21,19 @@ mongoose
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 
+// Middelware for Errors
+app.use((err, req, res, next) => {
+  const statuscode = err.statuscode || 500;
+  const message = err.message || "Internal Server Error";
+
+  res.status(statuscode).json({
+    success: false,
+    statuscode,
+    message: message,
+  });
+  
+});
+
 app.listen(3000, () => {
   console.log(` server is running in 3000`);
 });
